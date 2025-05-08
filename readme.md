@@ -3,11 +3,11 @@
 This is my template to host Wordpress sites in a local development environment.
 
 It uses:
-- Docker with Compose (I use Docker Desktop installed on Windows/WSLinux)
+- Docker with Compose; I use Docker Desktop installed on Windows/WSLinux
 - Traefik, as a router / virtual host / reverse proxy
 - Worpress (of course)
-- MySQL/Maridb
-- PhPMyAdmin, for database administration
+- MySQL/Mariadb, for databases
+- PhpMyAdmin, for database administration
 - OpenSSL, for generating self-signed SSL certificates
 
 
@@ -62,11 +62,9 @@ Finally, connect to https://mysite.com & follow Wordpress installation steps!
 
 ## Starting again!
 
-### Starting afresh
-
 To start afresh, clone this repo again & rename it! Dont forget to search & replace mysite/mysite.com where necessary.
 
-Now, you can run the starting procedure!
+### Run the starting procedure
 
 Create the networks & compose the container:
 
