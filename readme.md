@@ -1,10 +1,10 @@
-# Wordpress template with Docker and Traefik
+# Wordpress Docker template with Traefik
 
-This is my template to host Wordpress sites on a server.
+This is my template to host Wordpress sites in a local development environment.
 
 It uses:
 - Docker with Compose (I use Docker Desktop installed on Windows/WSLinux)
-- Traefik, as a virtual host / reverse proxy
+- Traefik, as a router / virtual host / reverse proxy
 - Worpress (of course)
 - MySQL/Maridb
 - PhPMyAdmin, for database administration
@@ -15,19 +15,19 @@ It uses:
 
 ## How to deploy
 
-### Server and domains
+### 1. System & Domains
 
-Have a server with Docker installed & point your domains to your local IP in your system's hosts file:
+Have Docker & Docker Compose installed on your system & point your domains to your local IP in your system's hosts file:
 
 - mysite.com
 - sql.mysite.com; for phpmyadmin dashboard
 - traefik.mysite.com; for traefik dashboard
 
-### 1. Rename sample.env
+### 2. Rename sample.env
 
 Rename 'sample.env' to '.env' & fill in your own details.
 
-### 2. Generate self-signed SSLs
+### 3. Generate self-signed SSLs
 
 Whilst inside the project directory, hit this to generate your self-signed cert:
 
@@ -43,7 +43,7 @@ chmod +x ./ssl/cert.sh
 
 Now install the certificate into the usual Trusted Root Certification Authorities directory on your system (windows)
 
-### 3. Launch the container!
+### 4. Launch the container!
 
 Whilst inside the project directory, launch it:
 
@@ -53,32 +53,18 @@ docker compose up -d
 
 Coffee time! Allow a few minutes for the db to create itself...
 
-### Install and configure wordpress
+### 5. Install & configure wordpress
 
-Finally, connect to https://mysite.com and follow Wordpress installation steps!
+Finally, connect to https://mysite.com & follow Wordpress installation steps!
 
 
 
 
 ## Starting again!
 
-### Resetting a container
+### Starting afresh
 
-First delete the current active containers/images/volumes/networks for your given active directory
-
-Then, delete the excess leftover files from wp & db
-
-```
-docker-compose down
-sudo rm -r db
-sudo rm -r wp/core
-sudo rm -r wp/content
-sudo rm -r ssl/cert
-```
-
-### Or, Starting afresh
-
-To start again, clone this repo again & rename it! Dont forget to search & replace mysite/mysite.com where necessary.
+To start afresh, clone this repo again & rename it! Dont forget to search & replace mysite/mysite.com where necessary.
 
 Now, you can run the starting procedure!
 
@@ -88,26 +74,19 @@ Create the networks & compose the container:
 docker compose up -d
 ```
 
-For a more complete composition using fresh volumes, try instead:
+### Resetting a container
+
+If you want to reset a container back to it's original state & delete any associated data, use this:
 
 ```
-docker compose up -d --force-recreate
+docker-compose down
+sudo rm -r db
+sudo rm -r wp/core
+sudo rm -r wp/content
+sudo rm -r ssl/cert
 ```
 
-Or for a fully fresh build ignoring all caches, try instead:
-
-```
-docker compose build --no-cache
-docker compose up -d --force-recreate --renew-anon-volumes
-```
-
-And after a container has been started up & is running, use this to refresh the containers with your latest code:
-
-```
-docker compose up -d
-```
-
-
+You can rebuild the container again inside it's directory with the 'docker compose up -d' command
 
 
 
