@@ -1,0 +1,88 @@
+networks:
+  mysite-net:
+    name: mysite-net
+
+services:
+
+  mysite-vhost:
+    image: traefik:latest
+    container_name: mysite-vhost
+    restart: always
+    env_file:
+      - ./.env
+    ports:
+      - 80:80
+      - 8080:8080
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./ssl/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./ssl/dynamic.yml:/etc/traefik/dynamic.yml:ro
+      - ${CERTS_PATH}:/etc/certs/
+    networks:
+      - mysite-net
+    labels:
+      - "traefik.http.routers.mysite-vhost.rule=Host(`${VHOST_DOMAIN}`)"
+      - "traefik.http.routers.mysite-vhost.service=api@internal"
+      - "traefik.enable=true"
+      - "traefik.http.routers.mysite-vhost.tls=true"
+  
+  mysite-wp:
+    image: wordpress:latest
+    build: ./wp
+    container_name: mysite-wp
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      - WORDPRESS_TABLE_PREFIX=${WORDPRESS_TABLE_PREFIX}
+      - WORDPRESS_DB_HOST=mysite-db
+      - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+      - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
+    volumes:
+      - ${WP_CORE}:/var/www/html
+      - ${WP_CONTENT}:/var/www/html/wp-content
+    networks:
+      - mysite-net
+    labels:
+      - "traefik.http.routers.mysite-wp.rule=Host(`${DOMAIN}`)"
+      - "traefik.enable=true"
+      - "traefik.http.routers.mysite-wp.tls=true"
+  
+  mysite-db:
+    image: mariadb:latest
+    container_name: mysite-db
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${WORDPRESS_DB_NAME}
+      - MYSQL_USER=${WORDPRESS_DB_USER}
+      - MYSQL_PASSWORD=${WORDPRESS_DB_PASSWORD}
+    volumes:
+      - ${DB_PATH}:/var/lib/mysql
+    networks:
+      - mysite-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mysite-db.tls=true"
+  
+  mysite-sql:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: mysite-sql
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      - PMA_HOST=mysite-db
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+     - /sessions
+    networks:
+      - mysite-net
+    labels:
+      - "traefik.http.routers.mysite-sql.rule=Host(`${DB_DOMAIN}`)"
+      - "traefik.enable=true"
+      - "traefik.http.routers.mysite-sql.tls=true"
