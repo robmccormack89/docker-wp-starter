@@ -55,14 +55,16 @@ Coffee time! Allow a few minutes for the db to create itself...
 
 ### 5. Install & configure wordpress
 
-Finally, connect to https://mysite.com & follow Wordpress installation steps!
+Finally, connect to https://mysite.com & follow Wordpress installation steps.
 
 
 
 
-## Starting again!
+## Starting again
 
-To start afresh, clone this repo again & rename it! Dont forget to search & replace mysite/mysite.com where necessary.
+To start afresh, clone this repo again & rename it.
+
+Don't forget to search & replace mysite/mysite.com where necessary.
 
 ### Run the starting procedure
 
@@ -100,19 +102,19 @@ A collection of useful commands / variations of the ones above
 
 ## Startups & Creation
 
-### recreate & start containers from existing caches. good for code changes!
+### Recreate/start the container from existing caches (good for code changes)
 
 ```
 docker compose up -d
 ```
 
-### compose & start new containers but with fresh volumes
+### Recreate/start new container but with fresh volumes
 
 ```
 docker compose up -d --force-recreate
 ```
 
-### full & fresh build with compose & start, all uncached
+### A full/fresh rebuild, all uncached
 
 ```
 docker compose build --no-cache
@@ -125,7 +127,7 @@ docker compose up -d --force-recreate --renew-anon-volumes
 - --renew-anon-volumes = Recreate anonymous volumes instead of retrieving data from the previous containers
 - --force-recreate = force all layers to be pulled fresh
 
-### create network/s
+### Create network/s
 
 ```
 docker network create mysite-net
