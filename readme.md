@@ -1,4 +1,4 @@
-# Wordpress Docker template with Traefik
+# A local development environment template for Wordpress; using Docker & Traefik
 
 This is my template to host Wordpress sites in a local development environment.
 
