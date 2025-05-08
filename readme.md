@@ -102,19 +102,19 @@ A collection of useful commands / variations of the ones above
 
 ## Startups & Creation
 
-### Recreate/start the container from existing caches (also use for code changes)
+### Rebuild & start the container from existing caches (also use for code changes)
 
 ```
 docker compose up -d
 ```
 
-### Recreate/start new container but with fresh volumes
+### Rebuild & start the container, but with fresh volumes
 
 ```
 docker compose up -d --force-recreate
 ```
 
-### A full/fresh rebuild, all uncached
+### A full & fresh rebuild, all uncached
 
 ```
 docker compose build --no-cache
