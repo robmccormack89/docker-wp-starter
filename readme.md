@@ -153,7 +153,7 @@ sudo rm -r wp/content
 sudo rm -r ssl/cert
 ```
 
-### delete network/s
+### Delete network/s
 
 ```
 docker network rm mysite-net
@@ -172,7 +172,7 @@ docker system prune --volumes --force --all
 
 
 
-## Watching
+## Watch commands
 
 ```
 docker compose watch
@@ -187,9 +187,13 @@ docker compose up --watch
 
 ## Generating self-signed SSLs
 
+Whilst inside the project directory, hit this to generate your self-signed cert:
+
 ```
 ./ssl/cert.sh
 ```
+
+if you need to apply permissions to use this file as an executable, use this:
 
 ```
 chmod +x ./ssl/cert.sh
