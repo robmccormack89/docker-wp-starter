@@ -138,13 +138,13 @@ docker network create mysite-net
 
 ## Shutdown & Deletion
 
-### shutdown & delete containers, but not images/valumes
+### Shutdown & delete containers, images & volumes
 
 ```
 docker-compose down
 ```
 
-### delete excess files relating to wp, db & ssl
+### Delete excess files relating to wp, db & ssl
 
 ```
 sudo rm -r db
@@ -153,7 +153,13 @@ sudo rm -r wp/content
 sudo rm -r ssl/cert
 ```
 
-### prune delete the whole system of ALL containers, volumes & images (be careful with this!)
+### delete network/s
+
+```
+docker network rm mysite-net
+```
+
+### Clear the system of ALL containers, images & volumes (be careful with this!)
 
 ```
 docker system prune --volumes --force --all
@@ -162,12 +168,6 @@ docker system prune --volumes --force --all
 - --volumes = Prune anonymous volumes
 - --force = Do not prompt for confirmation
 - --all = Remove all unused images not just dangling ones
-
-### delete network/s
-
-```
-docker network rm mysite-net
-```
 
 
 
