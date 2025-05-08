@@ -102,7 +102,7 @@ A collection of useful commands / variations of the ones above
 
 ## Startups & Creation
 
-### Recreate/start the container from existing caches (good for code changes)
+### Recreate/start the container from existing caches (also use for code changes)
 
 ```
 docker compose up -d
