@@ -78,7 +78,7 @@ sudo rm -r ssl/cert
 
 ### Or, Starting afresh
 
-To start again fresh, clone this repo again & rename it! Dont forget to search & replace mysite/mysite.com in compose.yml & .env.
+To start again, clone this repo again & rename it! Dont forget to search & replace mysite/mysite.com where necessary.
 
 Now, you can run the starting procedure!
 
@@ -123,11 +123,16 @@ A collection of useful commands / variations of the ones above
 
 ## Startups & Creation
 
-### create networks
+### recreate & start containers from existing caches. good for code changes!
 
 ```
-docker network create mysite-vhost-net
-docker network create mysite-wp-net
+docker compose up -d
+```
+
+### compose & start new containers but with fresh volumes
+
+```
+docker compose up -d --force-recreate
 ```
 
 ### full & fresh build with compose & start, all uncached
@@ -137,23 +142,16 @@ docker compose build --no-cache
 docker compose up -d --force-recreate --renew-anon-volumes
 ```
 
-### --breakdown
-build = builds the images, does not start the containers
---no-cache = disables the build cache in the image creation process
-up -d = detatched mode (close after finish)
---renew-anon-volumes = Recreate anonymous volumes instead of retrieving data from the previous containers
---force-recreate = force all layers to be pulled fresh
+- build = builds the images, does not start the containers
+- --no-cache = disables the build cache in the image creation process
+- up -d = detatched mode (close after finish)
+- --renew-anon-volumes = Recreate anonymous volumes instead of retrieving data from the previous containers
+- --force-recreate = force all layers to be pulled fresh
 
-### compose & start new containers but with fresh volumes
-
-```
-docker compose up -d --force-recreate
-```
-
-### recreate & start containers from existing caches. good for code changes!
+### create network/s
 
 ```
-docker compose up -d
+docker network create mysite-net
 ```
 
 
@@ -167,25 +165,7 @@ docker compose up -d
 docker-compose down
 ```
 
-### delete networks
-
-```
-docker network rm mysite-vhost-net
-docker network rm mysite-wp-net
-```
-
-### prune delete the whole system of volumes & more; a full deletion, be careful! (doesnt delete images)
-
-```
-docker system prune --volumes --force --all
-```
-
-### --breakdown
---volumes = Prune anonymous volumes
---force = Do not prompt for confirmation
---all = Remove all unused images not just dangling ones
-
-### delete excess files relating to wp & db
+### delete excess files relating to wp, db & ssl
 
 ```
 sudo rm -r db
@@ -194,18 +174,30 @@ sudo rm -r wp/content
 sudo rm -r ssl/cert
 ```
 
+### prune delete the whole system of ALL containers, volumes & images (be careful with this!)
+
+```
+docker system prune --volumes --force --all
+```
+
+- --volumes = Prune anonymous volumes
+- --force = Do not prompt for confirmation
+- --all = Remove all unused images not just dangling ones
+
+### delete network/s
+
+```
+docker network rm mysite-net
+```
+
 
 
 
 ## Watching
 
-### compose watch
-
 ```
 docker compose watch
 ```
-
-### compose up with --watch flag
 
 ```
 docker compose up --watch
