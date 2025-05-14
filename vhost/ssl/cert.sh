@@ -7,9 +7,9 @@ read -p "Enter Domain: " domain
 export OPENSSL_CONF="/etc/ssl/openssl.cnf"
 
 # Create the domain directory if it doesn't exist
-if [[ ! -d "ssl/cert" ]]; then
-  mkdir -p "ssl/cert" || {
-    echo "Error: failed to create directory 'ssl/cert'."
+if [[ ! -d "ssl/certs/mysite.com" ]]; then
+  mkdir -p "ssl/certs/mysite.com" || {
+    echo "Error: failed to create directory 'ssl/certs/mysite.com'."
     exit 1
   }
 fi
@@ -20,10 +20,10 @@ fi
   -new -sha256 \
   -newkey rsa:2048 \
   -nodes \
-  -keyout "ssl/cert/server.key" \
+  -keyout "ssl/certs/mysite.com/server.key" \
   -x509 \
   -days 365 \
-  -out "ssl/cert/server.crt"
+  -out "ssl/certs/mysite.com/server.crt"
 
 # Display completion message
 echo

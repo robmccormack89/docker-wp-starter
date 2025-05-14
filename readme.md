@@ -2,7 +2,8 @@
 
 This is my template to host Wordpress sites in a local development environment.
 
-It uses:
+## It uses:
+
 - Docker with Compose; I use Docker Desktop installed on Windows/WSLinux
 - Traefik, as a router / virtual host / reverse proxy
 - Worpress (of course)
@@ -10,42 +11,41 @@ It uses:
 - PhpMyAdmin, for database administration
 - OpenSSL, for generating self-signed SSL certificates
 
+# How to deploy
 
-
-
-## How to deploy
-
-### 1. System & Domains
+## 1. Domains
 
 Have Docker & Docker Compose installed on your system & point your domains to your local IP in your system's hosts file:
 
-- mysite.com
-- sql.mysite.com; for phpmyadmin dashboard
-- traefik.mysite.com; for traefik dashboard
+- localhost, for traefik dashboard
+- mysite.com, for wp site
+- db.mysite.com; for phpmyadmin dashboard
 
-### 2. Rename sample.env
+## 2. SSLs
 
-Rename 'sample.env' to '.env' & fill in your own details.
-
-### 3. Generate self-signed SSLs
-
-Whilst inside the project directory, hit this to generate your self-signed cert:
+Whilst inside the 'vhost' directory, use this command to generate your self-signed cert:
 
 ```
 ./ssl/cert.sh
 ```
 
-if you need to apply permissions to use this file as an executable, use this:
+you may be required to apply permissions to use this file as an executable; if so, use this before trying the above command again:
 
 ```
 chmod +x ./ssl/cert.sh
 ```
 
-Now install the certificate into the usual Trusted Root Certification Authorities directory on your system (windows)
+Now install the newly generated certificate into the usual Trusted Root Certification Authorities directory on your system (windows)
 
-### 4. Launch the container!
+## 3. Launch
 
-Whilst inside the project directory, launch it:
+While youre still inside the 'vhost' directory, launch the vhost container with:
+
+```
+docker compose up -d
+```
+
+Now, navigate to the site directory (sites/mysite.com) & launch the wp site container with:
 
 ```
 docker compose up -d
@@ -53,40 +53,99 @@ docker compose up -d
 
 Coffee time! Allow a few minutes for the db to create itself...
 
-### 5. Install & configure wordpress
+## 5. Install & configure wordpress
 
 Finally, connect to https://mysite.com & follow Wordpress installation steps.
 
 
 
 
-## Starting again
 
-To start afresh, clone this repo again & rename it.
 
-Don't forget to search & replace mysite/mysite.com where necessary.
 
-### Run the starting procedure
 
-Create the networks & compose the container:
+
+
+# Starting a new site
+
+To start afresh, unzip the _mysite.com.zip folder in 'sites' directory & rename how you like, e.g: 'example.com'.
+
+You will need to do a search & replace in this new folder, changing 'mysite' & 'mysite.com' to 'example' & 'example.com' etc.
+
+## 1. Create new SSL
+
+Naviagte back to 'vhost' directory.
+
+In cert.conf & cert.sh, will need to do a search & replace, changing 'mysite' & 'mysite.com' to 'example' & 'example.com' etc.
+
+Now you can generate your new SSL using:
+
+```
+./ssl/cert.sh
+```
+
+Install the certificate on your system & add your new cert to the bottom of tls.certificates array in dynamic.yml (same format)
+
+## 2. Launch
+
+Naviagte back to the 'example.com' directory you unzipped before & Launch it as a new wp container using:
 
 ```
 docker compose up -d
 ```
 
-### Resetting a container
+Coffee time! Allow a few minutes for the db to create itself...
 
-If you want to reset a container back to it's original state & delete any associated data, use this:
+## 3. Install & configure wordpress
+
+Finally, connect to https://example.com & follow Wordpress installation steps again!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Resetting a container
+
+## Reset wp site container
+
+If you want to reset a wp site container back to it's original state & delete any associated data, naviagte to its directory & use this:
 
 ```
 docker-compose down
 sudo rm -r db
 sudo rm -r wp/core
 sudo rm -r wp/content
+```
+
+## Reset vhost container
+
+To reset the vhost container, navigate to 'vhost' directory & use:
+
+```
+docker-compose down
 sudo rm -r ssl/cert
 ```
 
-You can rebuild the container again inside it's directory with the 'docker compose up -d' command
+## Rebuild container
+
+You can rebuild a container again inside it's directory with the 'docker compose up -d' command
+
+
+
 
 
 
@@ -136,6 +195,10 @@ docker network create mysite-net
 
 
 
+
+
+
+
 ## Shutdown & Deletion
 
 ### Shutdown & delete containers, images & volumes
@@ -172,6 +235,12 @@ docker system prune --volumes --force --all
 
 
 
+
+
+
+
+
+
 ## Watch commands
 
 ```
@@ -181,6 +250,9 @@ docker compose watch
 ```
 docker compose up --watch
 ```
+
+
+
 
 
 

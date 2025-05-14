@@ -14,7 +14,7 @@ providers:
   docker:
     exposedByDefault: false
     endpoint: 'unix:///var/run/docker.sock'
-    network: mysite-net
+    network: vhost-net
   file:
     filename: /etc/traefik/dynamic.yml
     watch: true

@@ -1,5 +1,4 @@
-.env
-db
-wp/core
-wp/content
-ssl/cert
+sites/mysite.com/db
+sites/mysite.com/wp/core
+sites/mysite.com/wp/content
+vhost/ssl/certs
