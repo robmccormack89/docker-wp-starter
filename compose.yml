@@ -7,7 +7,7 @@ services:
   mysite-vhost:
     image: traefik:latest
     container_name: mysite-vhost
-    restart: always
+    restart: unless-stopped
     env_file:
       - ./.env
     ports:
@@ -18,7 +18,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./ssl/traefik.yml:/etc/traefik/traefik.yml:ro
       - ./ssl/dynamic.yml:/etc/traefik/dynamic.yml:ro
-      - ${CERTS_PATH}:/etc/certs/
+      - ${CERTS_PATH}:/etc/certs/mysite.com/
     networks:
       - mysite-net
     labels:
@@ -31,7 +31,7 @@ services:
     image: wordpress:latest
     build: ./wp
     container_name: mysite-wp
-    restart: always
+    restart: unless-stopped
     env_file:
       - ./.env
     environment:
@@ -53,7 +53,7 @@ services:
   mysite-db:
     image: mariadb:latest
     container_name: mysite-db
-    restart: always
+    restart: unless-stopped
     env_file:
       - ./.env
     environment:
@@ -72,7 +72,7 @@ services:
   mysite-sql:
     image: phpmyadmin/phpmyadmin:latest
     container_name: mysite-sql
-    restart: always
+    restart: unless-stopped
     env_file:
       - ./.env
     environment:

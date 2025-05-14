@@ -2,10 +2,10 @@ tls:
   stores:
     default:
       defaultCertificate:
-        certFile: /etc/certs/server.crt
-        keyFile: /etc/certs/server.key
+        certFile: /etc/certs/mysite.com/server.crt
+        keyFile: /etc/certs/mysite.com/server.key
   certificates:
-    - certFile: /etc/certs/server.crt
-      keyFile: /etc/certs/server.key
+    - certFile: /etc/certs/mysite.com/server.crt
+      keyFile: /etc/certs/mysite.com/server.key
       stores:
         - default
