@@ -137,7 +137,7 @@ To reset the vhost container, navigate to 'vhost' directory & use:
 
 ```
 docker-compose down
-sudo rm -r ssl/cert
+sudo rm -r ssl/certs
 ```
 
 ## Rebuild container
